@@ -1,16 +1,5 @@
-This is my time with python.
+This is my first time with python.
 
-Not actually, but the first project I have done in python...
+PS: USE PYTHON LATEST VERSION
 
-Really fun tho
-
-// this
-p, q, e, n = chaves
-
-// being equal to this
-p = chaves[0]
-q = chaves[1]
-e = chaves[2]
-n = chaves[3]
-
-is really nice
+I need more valid keys to test the code, but It seems to work all the time...
