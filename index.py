@@ -14,13 +14,10 @@ def convert(b, e, n):
 
 def criptografar(texto, shift):
     resultado = []
-    for i in range(len(texto)):
-        b = alfabeto.index(texto[i]) + shift
-        a = convert(b, e, n)
+    for a in texto:
+        a = convert(alfabeto.index(a) + shift, e, n)
         resultado.append(a)
-    f = open("message.txt", "w+")
-    f.write("%s" % resultado)
-    f.close()
+    saveMessage(resultado)
     return resultado
 
 def desencriptar(array):
@@ -40,13 +37,16 @@ def getMessage():
     f.close()
     return content
 
-def saveMessage(text):
-    f = open("message.txt", "w+")
-    f.write("%s" % text)
-    print("salvo :)")
+def getKey():
+    f = open("key.txt", "r")
+    content = f.read()
+    content = content.split(',')
+    for i in range(len(content)):
+        content[i] = int(content[i])
     f.close()
+    return content
 
-def getKeys():
+def getLock():
     f = open("lock.txt", "r")
     content = f.read()
     content = content.split(',')
@@ -54,6 +54,13 @@ def getKeys():
         content[i] = int(content[i])
     f.close()
     return content
+
+def saveMessage(text):
+    f = open("message.txt", "w+")
+    f.write("%s" % text)
+    print("salvo :)")
+    f.close()
+    return 0
 
 def saveKey(p, q, d):
     resultado = str(p) + ',' + str(q) + ',' + str(d)
@@ -88,7 +95,7 @@ if programa == 1:
 
 elif programa == 2:
     # Encriptar
-    chaves = getKeys()
+    chaves = getLock()
     p, q, e, n = chaves
     texto = input("digite seu texto:\n").upper()
     texto = criptografar(texto, letterShift)
@@ -98,8 +105,8 @@ elif programa == 2:
 elif programa == 3:
     # Desencriptar
     if(int(input("Carregar chaves ou digitar?\n0-Digitar\n1-Carregar\n"))):
-        chaves = getKeys()
-        p, q, d, n = chaves
+        p, q, d = getKey()
+        n = p * q
     else:
         p = int(input('digite o p:'))
         q = int(input('digite o q:'))
@@ -111,8 +118,7 @@ elif programa == 3:
 elif programa == 4:
     # Gerar d
     if(int(input("Carregar chaves ou digitar?\n0-Digitar\n1-Carregar\n"))):
-        chaves = getKeys()
-        p, q, e, n = chaves
+        p, q, e, n = getLock()
     else:
         p = int(input('digite o p:'))
         q = int(input('digite o q:'))
