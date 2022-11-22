@@ -1,5 +1,3 @@
-#include <math.h>
-
 #define k 2
 
 typedef unsigned long long int ulli;
@@ -17,6 +15,21 @@ ulli fast_pow(int base, int exp)
         if (!exp)
             break;
         base *= base;
+    }
+
+    return result;
+}
+int pow_mod(int base, int exp, int mod)
+{
+    int result = 1;
+    for (;;)
+    {
+        if (exp & 1)
+            result = (result * base) % mod;
+        exp >>= 1;
+        if (!exp)
+            break;
+        base = (base * base) % mod;
     }
 
     return result;
@@ -72,9 +85,9 @@ int create_key(int p, int q)
 
     int phi = (p - 1) * (q - 1);
 
-    int e = 2;
+    int e = 3;
 
-    while (e++ < phi)
+    while (e < phi)
     {
         if (is_relative_prime(e, phi))
             break;
@@ -112,10 +125,8 @@ void decrypt(int message[], int d, int n, int letter_shift)
     printf("Decrypted message:\n");
     while (message[i] != -1)
     {
-        c = alphabet[(fast_pow(message[i], d) % n) - letter_shift];
+        printf("%c", (char)alphabet[pow_mod(message[i], d, n) - letter_shift]);
 
-        printf("%c", c ? c : ' ');
-        
         i++;
     }
     printf("\n");

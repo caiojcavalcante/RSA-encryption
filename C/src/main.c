@@ -13,7 +13,7 @@
 #include "rsa.h"
 
 #define __str_len__ 1000
-#define __letter_shift__ 10
+#define __letter_shift__ 2
 
 int main()
 {
@@ -37,7 +37,7 @@ int main()
 
             for(int i = 0; i < len; i++)
                 for(int j = 0; j < 28; j++)
-                    if(message[i] == alphabet[j] || message[i] == alphabet[j] + 32)
+                    if(message[i] == alphabet[j])
                     {
                         message[i] = j + __letter_shift__;
                         break;
