@@ -13,7 +13,7 @@
 #include "rsa.h"
 
 #define __str_len__ 1000
-#define __letter_shift__ (10 - 'a')
+#define __letter_shift__ 10
 
 int main()
 {
@@ -28,30 +28,28 @@ int main()
         {
             //encrypt
             char message[__str_len__];
-            int e, n;
+            int e, n, len;
+    
             printf("Enter the message to encrypt: ");
             scanf(" %[^\n]", message);
-            printf("preencoded\n");
-            for(int i = 0; i < strlen(message); i++)
-                printf("%d ", (message[i] + __letter_shift__));
 
-            printf("\n");
+            len = strlen(message);
 
-            for(int i = 0; i < strlen(message); i++)
-            {
+            for(int i = 0; i < len; i++)
                 for(int j = 0; j < 28; j++)
                     if(message[i] == alphabet[j] || message[i] == alphabet[j] + 32)
                     {
-                        message[i] = j;
+                        message[i] = j + __letter_shift__;
                         break;
                     }
-                printf("/");
-            }
+
+            for(int i = 0; i < len; i++)
+                printf("%d ", message[i]);
 
             printf("\n");
             printf("Enter the public key (e, n): ");
             scanf("%d %d", &e, &n);
-            encrypt(message, e, n, __letter_shift__);
+            encrypt(message, e, n);
             break;
         }
         case 2:

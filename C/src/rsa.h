@@ -89,7 +89,7 @@ int create_key(int p, int q)
 
     return 0;
 }
-void encrypt(char message[], int e, ulli n, int letter_shift)
+void encrypt(char message[], int e, ulli n)
 {
     //e = expoente
     //n = chave de codificação
@@ -98,7 +98,7 @@ void encrypt(char message[], int e, ulli n, int letter_shift)
     ulli c;
     while (message[i] != '\0')
     {
-        printf("%llu ", fast_pow(message[i] + letter_shift, e) % n);
+        printf("%llu ", fast_pow(message[i], e) % n);
         i++;
     }
     printf("\n");
@@ -108,10 +108,14 @@ void decrypt(int message[], int d, int n, int letter_shift)
     //d = expoente
     //n = chave de codificação
     int i = 0;
+    char c;
     printf("Decrypted message:\n");
     while (message[i] != -1)
     {
-        printf("%c", (char)((fast_pow(message[i], d) % n) - letter_shift));
+        c = alphabet[(fast_pow(message[i], d) % n) - letter_shift];
+
+        printf("%c", c ? c : ' ');
+        
         i++;
     }
     printf("\n");
