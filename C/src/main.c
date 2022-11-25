@@ -85,5 +85,12 @@ int main()
             break;
         }
     }
+    char *s;
+
+    for(int i = 0; 1; i++)
+    {
+        if(scanf("%s", s) == EOF)
+            break;
+    }
     return 0;
 }
