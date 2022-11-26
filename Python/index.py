@@ -3,13 +3,13 @@ import colorama
 from colorama import Fore, Back, Style
 colorama.init(autoreset=True)
 
-alfabeto = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-   'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S','T', 'U', 'V',
-    'W', 'X', 'Y', 'Z', ' ']
+alfabeto = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        'N', 'O', 'P', 'Q', 'R', 'S','T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ']
 
 letterShift = 2
 
 def fast_pow_mod(base, exp, mod):
+    #exponenciacao modular rapida
     if exp < 0:
         return 1 / fast_pow_mod(base, -exp, mod)
     ans = 1
@@ -26,7 +26,7 @@ def criptografar(texto, shift):
         #converte cada letra
         a = fast_pow_mod(alfabeto.index(a) + shift, e, n)
         resultado.append(a)
-    saveMessage(resultado)
+
     return resultado
 
 def desencriptar(array):
@@ -66,7 +66,6 @@ def getLock():
 def getMessageToEncrypt():
     f = open("text.txt", "r")
     content = f.read()
-
     f.close()
     return content
 
@@ -93,6 +92,7 @@ def saveLock(p, q, l, n):
     f.close()
 
 def gcd(a, b):
+    # greatest common divisor
     while b:
         a, b = b, a % b
     return a
@@ -145,9 +145,10 @@ elif programa == 2:
         mensagem = input("Digite a mensagem:\n")
     else:
         mensagem = getMessageToEncrypt()
-        mensagem = treatMessage(mensagem)
 
+    mensagem = treatMessage(mensagem)
     mensagem = criptografar(mensagem.upper(), letterShift)
+    saveMessage(mensagem)
     print(mensagem)
     
 elif programa == 3:
@@ -155,13 +156,12 @@ elif programa == 3:
     if(int(input("Carregar chaves ou digitar?\n0-Digitar\n1-Carregar\n"))):
         #carregar
         p, q, d = getKey()
-        n = p * q
     else:
         #digitar
-        p = int(input('digite o p:'))
-        q = int(input('digite o q:'))
-        d = int(input('digite o d:'))
-        n = p * q
+        p , q, d = input('digite o p, q, d:').split()
+        p , q, d = int(p), int(q), int(d)
+        
+    n = p * q
     message = getMessageToDecrypt()
     print(desencriptar(message))
 
@@ -172,11 +172,12 @@ elif programa == 4:
         p, q, e, n = getLock()
     else:
         #digitar
-        p = int(input('digite o p:'))
-        q = int(input('digite o q:'))
-        e = int(input('digite o e:'))
+        p , q, e = input('digite o p, q, e:').split()
+        p , q, e = int(p), int(q), int(e)
     #calcula o d
     phi = (p - 1) * (q - 1)
+    #aplica o teorema chines do resto pra achar o d
     d = modinv(e, phi) % phi
+    #salva as variaveis
     saveKey(p, q, d)
     print(d)
