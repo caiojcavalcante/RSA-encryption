@@ -38,7 +38,7 @@ def desencriptar(array):
 
     return resultado
 
-def getMessage():
+def getMessageToDecrypt():
     f = open("message.txt", "r")
     content = f.read()
     content = content.split()
@@ -51,8 +51,7 @@ def getKey():
     f = open("key.txt", "r")
     content = f.read()
     content = content.split(',')
-    for i in range(len(content)):
-        content[i] = int(content[i])
+    content = [int(i) for i in content]
     f.close()
     return content
 
@@ -60,8 +59,14 @@ def getLock():
     f = open("lock.txt", "r")
     content = f.read()
     content = content.split(',')
-    for i in range(len(content)):
-        content[i] = int(content[i])
+    content = [int(i) for i in content]
+    f.close()
+    return content
+
+def getMessageToEncrypt():
+    f = open("text.txt", "r")
+    content = f.read()
+
     f.close()
     return content
 
@@ -91,6 +96,9 @@ def gcd(a, b):
     while b:
         a, b = b, a % b
     return a
+
+def treatMessage(text):
+    return text.replace(",", " ").replace("é", "e").replace("ê", "e").replace("á", "a").replace("à", "a").replace("ã", "a").replace("â", "a").replace("ó", "o").replace("ô", "o").replace("õ", "o").replace("í", "i").replace("ú", "u").replace("ç", "c")
 
 def modinv(a, b):
     #teorema chines do resto
@@ -132,9 +140,15 @@ elif programa == 2:
     # Encriptar
     chaves = getLock() #puxa 
     p, q, e, n = chaves
-    texto = input("digite seu texto:\n").upper()
-    texto = criptografar(texto, letterShift)
-    print(texto)
+
+    if(int(input("Carregar ou digitar ?\n0-carregar\n1-digitar\n"))):
+        mensagem = input("Digite a mensagem:\n")
+    else:
+        mensagem = getMessageToEncrypt()
+        mensagem = treatMessage(mensagem)
+
+    mensagem = criptografar(mensagem.upper(), letterShift)
+    print(mensagem)
     
 elif programa == 3:
     # Desencriptar
@@ -148,7 +162,7 @@ elif programa == 3:
         q = int(input('digite o q:'))
         d = int(input('digite o d:'))
         n = p * q
-    message = getMessage()
+    message = getMessageToDecrypt()
     print(desencriptar(message))
 
 elif programa == 4:
