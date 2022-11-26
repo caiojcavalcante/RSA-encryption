@@ -11,7 +11,7 @@ letterShift = 2
 
 def fast_pow_mod(base, exp, mod):
     if exp < 0:
-        return 1 / fast_pow_mod(base, -exp)
+        return 1 / fast_pow_mod(base, -exp, mod)
     ans = 1
     while exp:
         if exp & 1:
@@ -40,10 +40,10 @@ def desencriptar(array):
 
 def getMessage():
     f = open("message.txt", "r")
-    content = f.read()[1:]
-    content = content[:len(content) - 1].split(',')
-    for i in range(len(content)):
-        content[i] = int(content[i])
+    content = f.read()
+    content = content.split()
+    content = [int(i) for i in content]
+
     f.close()
     return content
 
@@ -67,7 +67,8 @@ def getLock():
 
 def saveMessage(text):
     f = open("message.txt", "w+")
-    f.write("%s" % text)
+    for i in range(len(text)):
+        f.write("%s " % text[i])
     print("salvo :)")
     f.close()
     return 0
@@ -116,11 +117,12 @@ if programa == 1:
     p = int(input("digite um numero primo:\n"))
     q = int(input("digite outro numero primo:\n"))
     if(int(input("Gerar e ou digitar?\n0-gerar\n1-digitar\n"))):
-        e = int(input("digite um numero primo:\n"))
+        e = int(input("digite o numero e:\n"))
     else:
         e = 3
-        while(gcd(e, (p-1)*(q-1)) != 1):
+        while(gcd(e, (p - 1)*(q - 1)) != 1):
             e += 2
+        print("e = ", e)
 
     n = p * q 
     saveLock(p, q, e, n)
@@ -160,7 +162,7 @@ elif programa == 4:
         q = int(input('digite o q:'))
         e = int(input('digite o e:'))
     #calcula o d
-    phi = (p-1) * (q-1)
+    phi = (p - 1) * (q - 1)
     d = modinv(e, phi) % phi
     saveKey(p, q, d)
     print(d)
