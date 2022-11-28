@@ -39,7 +39,7 @@ def desencriptar(array):
 
     return resultado
 
-def getMessageToDecrypt():
+def getCypherToDecrypt():
     f = open("message.txt", "r")
     content = f.read()
     content = content.split()
@@ -56,21 +56,13 @@ def getKey():
     f.close()
     return content
 
-def getLock():
-    f = open("lock.txt", "r")
-    content = f.read()
-    content = content.split(',')
-    content = [int(i) for i in content]
-    f.close()
-    return content
-
 def getMessageToEncrypt():
     f = open("text.txt", "r")
     content = f.read()
     f.close()
     return content
 
-def saveMessage(text):
+def setMessage(text):
     f = open("message.txt", "w+")
     for i in range(len(text)):
         f.write("%s " % text[i])
@@ -78,19 +70,23 @@ def saveMessage(text):
     f.close()
     return 0
 
-def saveKey(p, q, d):
-    resultado = str(p) + ',' + str(q) + ',' + str(d)
+def setKey(d, n):
+    resultado = str(d) + ',' + str(n)
     f = open("key.txt", "w+")
     f.write("%s" % resultado)
-    print("salvo :)")
     f.close()
 
-def saveLock(p, q, l, n):
-    resultado = str(p) + ',' + str(q) + ',' + str(l) + ',' + str(n)
+def setLock(e, n):
     f = open("lock.txt", "w+")
-    f.write("%s" % resultado)
-    print("salvo :)")
+    f.write("%d %d" % (e, n))
     f.close()
+
+def getLock():
+    f = open("lock.txt", "r")
+    content = f.read().split(' ')
+    content = [int(i) for i in content]
+    f.close()
+    return content
 
 def gcd(a, b):
     # greatest common divisor
@@ -117,66 +113,55 @@ def modinv(a, b):
 print(Fore.BLUE + "                     ⠀⠀⠀⠀⠀⠀⠀⠀   ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢐⣤⣼⣿⣿⣿⣿⣿⣿⣷⣶⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣢⣾⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡟⠛⢻⠉⡉⠍⠁⠁⠀⠈⠙⢻⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠏⢠⢀⡼⡄⠃⠤⠀⠀⠀⠀⠀⡐⠸⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜⢰⣸⡎⣀⣷⣤⣶⣶⣶⣦⡀⠀⠈⠓⢿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣇⣤⣯⣿⣿⣿⣿⣿⣿⣿⣭⣯⡆⠀⠀⠘⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡿⣻⣿⣿⣼⠀⢹⣿⣿⣿⣿⡿⠋⠁⠀⠀⠀⢘⣿⠙⠡⢽⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢙⣛⣿⣯⠏⠀⢀⣿⣿⣿⣯⣠⡀⠀⠀⠀⢀⣾⡏⠒⢻⣷⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⡟⢘⣏⣺⣤⣬⣭⣼⣿⣿⣯⡉⢻⣦⣌⣦⣾⣿⣿⡚⠾⠿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⢹⡼⣿⣿⢼⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⡿⣿⢿⡟⢳⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢳⣿⣧⡞⣻⣩⣽⡽⣿⣿⣿⣿⣿⣿⣿⣿⡟⣠⣿⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡿⣇⣬⣿⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣿⡿⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡛⣿⣄⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢼⡃⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠋⠁⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠓⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠈⢳⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠿⢿⡟⠻⢿⣿⡷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣍⠓⠲⠤⢤⣄⡀⠀⠀⠀⠀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣇⠀⠈⣿⡏⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠈⠈⢯⡁⠀⠀⠀⠉⠹⠶⢤⣀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣻⠀⢀⠹⣿⡆⠀⢰⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⣷⣤⣄⠀⠀⠀⠀⠀     \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠴⠚⢩⠀⢸⡄⢹⣿⣦⣸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣷⣤⡄⠀⢀    \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠴⠋⡀⣀⣰⣿⠀⠄⠹⣾⣿⣿⡿⣿⠀⢠⣤⣀⣴⣤⣤⡴⠶⠶⠿⠿⠛⠛⠋⠉⠉⣠⣿  \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠞⠁⢀⡱⠏⠉⡟⠃⠀⠀⠀⢸⣿⣿⠇⣿⡴⠾⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⡿⠟   \n                     ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡤⠖⢋⣡⣶⣿⣂⡼⠁⠉⠙⠋⠙⠿⠟⣢⣄⢿⡟⠴⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠈⠀⠀   \n                     ⠀⠀⠀⢀⣠⠴⠚⠉⠉⠀⠀⠀⠀⠀⣸⡿⠟⠀⠀⠀⠀⠀⠀⠲⣾⡛⣿⣬⡄⠀⠀⠁⠠⣤⠆⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    \n                     ⠀⣠⠞⠉⠀⠀⠀⠀⠀⠀⠀⠀⠤⠚⠉⠀⠀⠀⠀⠀⠀⠀⠀⠺⣿⡟⣿⡟⠀⠀⠂⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀     \n                     ⠞⠁⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢐⡀⡀⣼⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠈⠁⠆⠀⠀⠀     \n")
 print(Fore.BLUE + " .d8888b.          d8b          888                                      .d888 d8b             8888888b.   .d8888b.        d8888 \nd88P  Y88b         Y8P          888                                     d88P   Y8P             888   Y88b d88P  Y88b      d88888 \n888    888                      888                                     888                    888    888 Y88b.          d88P888 \n888        888d888 888 88888b.  888888 .d88b.   .d88b.  888d888 8888b.  888888 888  8888b.     888   d88P   Y888b.      d88P 888 \n888        888P    888 888  88b 888   d88  88b d88P 88b 888P        88b 888    888      88b    8888888P        Y88b.   d88P  888 \n888    888 888     888 888  888 888   888  888 888  888 888    .d888888 888    888 .d888888    888 T88b          888  d88P   888 \nY88b  d88P 888     888 888 d88P Y88b. Y88..88P Y88b 888 888    888  888 888    888 888  888    888  T88b  Y88b  d88P d8888888888 \n  Y8888P   888     888 88888P     Y888  Y88P     Y88888 888     Y888888 888    888  Y888888    888   T88b   Y8888P  d88P     888 \n                       888                          888                                                                          \n                       888                     Y8b d88P                                                                          \n                       888                       Y88P                                                                            \n")
 #prompt para o usuario escolher a programação
-programa = int(input("Digite\n1-Gerar chave publica\n2-Encriptar\n3-Desencriptar\n4-Gerar Decriptador\n"))
+while True:
+    programa = int(input("Digite\n1-Gerar chaves\n2-Encriptar\n3-Desencriptar\n"))
+    match programa:
+        case 1:
+            # Gerar chaves
+            p = int(input("digite um numero primo:\n"))
+            q = int(input("digite outro numero primo:\n"))
+            if(int(input("Gerar e ou digitar?\n0-Gerar\n1-Digitar\n"))):
+                e = int(input("digite o numero e:\n"))
+            else:
+                e = 3
+                while(gcd(e, (p - 1)*(q - 1)) != 1):
+                    e += 2
 
-if programa == 1:
-    # Gerar chave publica
-    p = int(input("digite um numero primo:\n"))
-    q = int(input("digite outro numero primo:\n"))
-    if(int(input("Gerar e ou digitar?\n0-gerar\n1-digitar\n"))):
-        e = int(input("digite o numero e:\n"))
-    else:
-        e = 3
-        while(gcd(e, (p - 1)*(q - 1)) != 1):
-            e += 2
-        print("e = ", e)
+            n = p * q 
+            phi = (p - 1) * (q - 1)
 
-    n = p * q 
-    saveLock(p, q, e, n)
-    print("chave: %d" % n)
+            d = modinv(e, phi)
 
-elif programa == 2:
-    # Encriptar
-    chaves = getLock() #puxa 
-    p, q, e, n = chaves
+            setLock(e, n)
+            setKey(d, n)
+            print("chave publica: (%d, %d)" % (e, n))
+            print("chave privada: (%d, %d)\n" % (d, n))
 
-    if(int(input("Carregar ou digitar ?\n0-carregar\n1-digitar\n"))):
-        mensagem = input("Digite a mensagem:\n")
-    else:
-        mensagem = getMessageToEncrypt()
+        case 2:
+            # Encriptar
+            e, n = getLock() #puxa 
 
-    mensagem = treatMessage(mensagem)
-    mensagem = criptografar(mensagem, letterShift)
-    saveMessage(mensagem)
-    print(mensagem)
-    
-elif programa == 3:
-    # Desencriptar
-    if(int(input("Carregar chaves ou digitar?\n0-Digitar\n1-Carregar\n"))):
-        #carregar
-        p, q, d = getKey()
-    else:
-        #digitar
-        p , q, d = input('digite o p, q, d:').split()
-        p , q, d = int(p), int(q), int(d)
-        
-    n = p * q
-    message = getMessageToDecrypt()
-    print(desencriptar(message))
+            if(int(input("Carregar ou digitar ?\n0-Carregar\n1-Digitar\n"))):
+                mensagem = input("Digite a mensagem:\n")
+            else:
+                mensagem = getMessageToEncrypt()
 
-elif programa == 4:
-    # Gerar d
-    if(int(input("Carregar chaves ou digitar?\n0-Digitar\n1-Carregar\n"))):
-        #carregar
-        p, q, e, n = getLock()
-    else:
-        #digitar
-        p , q, e = input('digite o p, q, e:').split()
-        p , q, e = int(p), int(q), int(e)
-    #calcula o d
-    phi = (p - 1) * (q - 1)
-    #aplica o teorema chines do resto pra achar o d
-    d = modinv(e, phi)
-    #salva as variaveis
-    saveKey(p, q, d)
-    print(d)
+            mensagem = treatMessage(mensagem)
+            mensagem = criptografar(mensagem, letterShift)
+            setMessage(mensagem)
+            print(mensagem)
+            
+        case 3:
+            # Desencriptar
+            if(int(input("Carregar chaves ou digitar?\n0-Digitar\n1-Carregar\n"))):
+                #carregar
+                d, n = getKey()
+            else:
+                #digitar
+                d, n = input('digite o d, n:').split()
+                d, n = int(d), int(n)
+
+            message = getCypherToDecrypt()
+            print('\n' + desencriptar(message) + '\n')
+        case other:
+            break
