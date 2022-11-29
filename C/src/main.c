@@ -6,18 +6,18 @@
 int main()
 {
     int opcao;
-    printf("1 - Criptografar\n2 - Descriptografar\n3 - Gerar chaves\n");
+    printf("1- Gerar chaves\n2 - Criptografar\n3 - Descriptografar\n");
     scanf("%d", &opcao);
     switch(opcao)
     {
         case 1:
-            criptografar();
+            gerar_chaves();
             break;
         case 2:
-            descriptografar();
+            criptografar();
             break;
         case 3:
-            gerar_chaves();
+            descriptografar();
             break;
     }
 }
