@@ -6,6 +6,15 @@ alfabeto = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
 
 letterShift = 2
 
+def is_prime(p):
+    if p == 2 or p == 3:
+        return True
+    if p < 2:
+        return False
+
+    prime_test = lambda p, a, m : (p % a == m) or (p % a == (a-m))
+    return prime_test(p, 6, 1)
+
 def fast_pow_mod(base, exp, mod):
     #exponenciacao modular rapida
     if exp < 0:

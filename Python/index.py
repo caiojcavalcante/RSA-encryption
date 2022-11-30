@@ -11,16 +11,27 @@ match int(input("Digite\n1-Gerar chaves\n2-Encriptar\n3-Desencriptar\n")):
     case 1:
         # Gerar chaves
         p = int(input("digite um numero primo:\n"))
+        if(is_prime(p) == False):
+            print("Numero nao primo")
+            exit()
+
         q = int(input("digite outro numero primo:\n"))
+        if(is_prime(q) == False):
+            print("Numero nao primo")
+            exit()
+
+        n = p * q 
+        phi = (p - 1) * (q - 1)
+
         if(int(input("Gerar e ou digitar?\n0-Gerar\n1-Digitar\n"))):
             e = int(input("digite o numero e:\n"))
+            if(gcd(e, phi) != 1):
+                print("Numero e invalido, nao e coprimo com phi")
+                exit()
         else:
             e = 3
             while(gcd(e, (p - 1)*(q - 1)) != 1):
                 e += 2
-
-        n = p * q 
-        phi = (p - 1) * (q - 1)
 
         d = modinv(e, phi)
 
