@@ -22,8 +22,9 @@ def criptografar(texto, shift, e, n):
     resultado = []
     for a in texto:
         #converte cada letra
-        a = fast_pow_mod(alfabeto.index(a) + shift, e, n)
-        resultado.append(a)
+        if(alfabeto.count(a)):
+            a = fast_pow_mod(alfabeto.index(a) + shift, e, n)
+            resultado.append(a)
 
     return resultado
 
@@ -92,8 +93,8 @@ def gcd(a, b):
     return a
 
 def treatMessage(text):
-    return unidecode(text.translate({ord(c): None for c in '".,?!;:()[]{}<>\\/|-=_+`~@#$%^&*'}).upper())
-
+    return unidecode(text.upper())
+    
 def modinv(a, b):
     #algoritmo de euclides extendido
     (r0, m0, n0) = a, 1, 0

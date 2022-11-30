@@ -23,7 +23,7 @@ match int(input("Digite\n1-Gerar chaves\n2-Encriptar\n3-Desencriptar\n")):
                 exit()
         else:
             e = 3
-            while(gcd(e, (p - 1)*(q - 1)) != 1):
+            while(gcd(e, phi) != 1):
                 e += 2
 
         d = modinv(e, phi)
@@ -46,7 +46,7 @@ match int(input("Digite\n1-Gerar chaves\n2-Encriptar\n3-Desencriptar\n")):
         mensagem = criptografar(mensagem, letterShift, e, n)
         setMessage(mensagem)
         print(mensagem)
-        
+
     case 3:
         # Desencriptar
         if(int(input("Carregar chaves ou digitar?\n0-Digitar\n1-Carregar\n"))):
@@ -58,4 +58,8 @@ match int(input("Digite\n1-Gerar chaves\n2-Encriptar\n3-Desencriptar\n")):
             d, n = int(d), int(n)
 
         message = getCypherToDecrypt()
-        print('\n' + desencriptar(message, letterShift, d, n) + '\n')
+        message = desencriptar(message, letterShift, d, n)
+        print(message)
+        f = open("output.txt", "w+")
+        f.write(message)
+        f.close()
