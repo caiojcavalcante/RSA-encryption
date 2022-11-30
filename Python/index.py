@@ -11,14 +11,7 @@ match int(input("Digite\n1-Gerar chaves\n2-Encriptar\n3-Desencriptar\n")):
     case 1:
         # Gerar chaves
         p = int(input("digite um numero primo:\n"))
-        if(is_prime(p) == False):
-            print("Numero nao primo")
-            exit()
-
         q = int(input("digite outro numero primo:\n"))
-        if(is_prime(q) == False):
-            print("Numero nao primo")
-            exit()
 
         n = p * q 
         phi = (p - 1) * (q - 1)

@@ -6,15 +6,6 @@ alfabeto = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
 
 letterShift = 2
 
-def is_prime(p):
-    if p == 2 or p == 3:
-        return True
-    if p < 2:
-        return False
-
-    prime_test = lambda p, a, m : (p % a == m) or (p % a == (a-m))
-    return prime_test(p, 6, 1)
-
 def fast_pow_mod(base, exp, mod):
     #exponenciacao modular rapida
     if exp < 0:
@@ -54,10 +45,27 @@ def getCypherToDecrypt():
     f.close()
     return content
 
+def setKey(d, n):
+    f = open("key.txt", "w+")
+    f.write("%d %d" % (d, n))
+    f.close()
+
 def getKey():
     f = open("key.txt", "r")
     content = f.read()
-    content = content.split(',')
+    content = content.split()
+    content = [int(i) for i in content]
+    f.close()
+    return content
+
+def setLock(e, n):
+    f = open("lock.txt", "w+")
+    f.write("%d %d" % (e, n))
+    f.close()
+
+def getLock():
+    f = open("lock.txt", "r")
+    content = f.read().split(' ')
     content = [int(i) for i in content]
     f.close()
     return content
@@ -76,26 +84,9 @@ def setMessage(text):
     f.close()
     return 0
 
-def setKey(d, n):
-    resultado = str(d) + ',' + str(n)
-    f = open("key.txt", "w+")
-    f.write("%s" % resultado)
-    f.close()
-
-def setLock(e, n):
-    f = open("lock.txt", "w+")
-    f.write("%d %d" % (e, n))
-    f.close()
-
-def getLock():
-    f = open("lock.txt", "r")
-    content = f.read().split(' ')
-    content = [int(i) for i in content]
-    f.close()
-    return content
 
 def gcd(a, b):
-    # greatest common divisor
+    #algoritmo de euclides
     while b:
         a, b = b, a % b
     return a
@@ -104,7 +95,7 @@ def treatMessage(text):
     return unidecode(text.translate({ord(c): None for c in '".,?!;:()[]{}<>\\/|-=_+`~@#$%^&*'}).upper())
 
 def modinv(a, b):
-    #teorema chines do resto
+    #algoritmo de euclides extendido
     (r0, m0, n0) = a, 1, 0
     (r1, m1, n1) = b, 0, 1
 
