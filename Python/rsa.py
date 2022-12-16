@@ -18,6 +18,18 @@ def fast_pow_mod(base, exp, mod):
         base = (base * base) % mod
     return ans
 
+def fast_pow_mod(base, exp, mod):
+    #exponenciacao modular rapida
+    if exp < 0:
+        return 1 / fast_pow_mod(base, -exp, mod)
+    ans = 1
+    while exp:
+        if exp % 2 == 1:
+            ans = (ans * base) % mod
+        exp = exp // 2
+        base = (base * base) % mod
+    return ans
+
 def criptografar(texto, shift, e, n):
     resultado = []
     for a in texto:
